@@ -14,7 +14,7 @@ setup(
             "src/fintools/templates/README.md"]),
         ("fintools", ["src/fintools/project_layout.yaml"])
         ],
-    install_requires=[],
+    install_requires=["virtualenv>=13.0.1", "virtualenvwrapper>=4.5.1", "PyYAML>=3.11"],
     package_data={
     },
 
