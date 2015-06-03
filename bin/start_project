@@ -1,0 +1,63 @@
+#!/bin/bash
+# Creates A Project And Initializes To Standard Specifications
+
+function script_exists
+{
+    type $1 &> /dev/null;
+}
+
+function show_usage 
+{
+    echo "usage: $0 project_name [project_home]"
+}
+
+if ! [ -x "$(command -v git)" ]; then
+  echo 'git is not installed.' >&2
+  exit
+fi
+
+if ! [ -x "$(command -v mkproject)" ]; then
+    if ! [ -f /usr/local/bin/virtualenvwrapper.sh ]; then           
+      echo 'virtualenv and virtualenvwrapper is not installed.' >&2
+      echo 'run: pip install -r fintools/env/requirements.txt to use this script' >&2
+      exit
+    fi
+    . /usr/local/bin/virtualenvwrapper.sh
+fi
+
+if [ "x$1" = "x" ]; then 
+    show_usage 
+    exit
+else 
+    PROJECT_NAME=$1
+fi
+
+if [ "x$PROJECT_HOME" = "x" ]; then 
+    if [ "x$2" = "x" ]; then 
+        show_usage
+        exit
+    else
+        PROJECT_HOME=$2
+    fi
+fi
+
+if [ ! -d "$PROJECT_HOME" ]; then 
+    echo "Project Directory: $PROJECT_HOME doesnt exist" >&2
+    read -p  "Would you like to create it? [y/N]" -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]; then  
+        mkdir -p "$PROJECT_HOME"
+    else
+        exit
+    fi
+fi
+
+FILENAME=`readlink ${BASH_SOURCE[0]}`
+if [ "x$FILENAME" = "x" ]; then 
+    FILENAME="${BASH_SOURCE[0]}"
+fi
+DIR=$( cd "$( dirname "$FILENAME" )" && pwd )
+
+mkproject $PROJECT_NAME && deactivate && git init
+python "$DIR/../src/fintools/setup_project.py" $PROJECT_NAME $PROJECT_HOME
+
+echo "$PROJECT_NAME all set up, run: workon $PROJECT_NAME now to start working!"

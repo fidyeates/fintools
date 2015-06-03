@@ -1,0 +1,10 @@
+root:
+    bin: null
+    src:
+        "$NAME": null    
+    test: null
+    docs: null
+    _files:
+        - README.md
+        - .gitignore
+        - setup.py
