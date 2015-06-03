@@ -58,6 +58,6 @@ fi
 DIR=$( cd "$( dirname "$FILENAME" )" && pwd )
 
 mkproject $PROJECT_NAME && deactivate && git init
-python "$DIR/../src/fintools/setup_project.py" $PROJECT_NAME $PROJECT_HOME
+python -c "import fintools.setup_project; fintools.setup_project.main()" $PROJECT_NAME $PROJECT_HOME
 
 echo "$PROJECT_NAME all set up, run: workon $PROJECT_NAME now to start working!"

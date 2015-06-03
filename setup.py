@@ -1,12 +1,22 @@
 from setuptools import setup, find_packages
+import glob
+
 setup(
     name="fintools",
     version="0.1",
-    packages=find_packages(),
+    package_dir={'': 'src'},
+    packages=['fintools'],
     scripts=["bin/start_project"],
-
+    data_files=[
+        ("fintools/templates", [
+            "src/fintools/templates/.gitignore",
+            "src/fintools/templates/setup.py",
+            "src/fintools/templates/README.md"]),
+        ("fintools", ["src/fintools/project_layout.yaml"])
+        ],
     install_requires=[],
-    package_data={},
+    package_data={
+    },
 
     # metadata for upload to PyPI
     author="",
