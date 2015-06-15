@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Creates A Project And Initializes To Standard Specifications
 
 function script_exists
@@ -17,12 +17,12 @@ if ! [ -x "$(command -v git)" ]; then
 fi
 
 if ! [ -x "$(command -v mkproject)" ]; then
-    if ! [ -f /usr/local/bin/virtualenvwrapper.sh ]; then           
+    if ! [ -f $VIRTUALENVWRAPPER_SCRIPT ]; then           
       echo 'virtualenv and virtualenvwrapper is not installed.' >&2
       echo 'run: pip install -r fintools/env/requirements.txt to use this script' >&2
       exit
     fi
-    . /usr/local/bin/virtualenvwrapper.sh
+    . $VIRTUALENVWRAPPER_SCRIPT
 fi
 
 if [ "x$1" = "x" ]; then 
